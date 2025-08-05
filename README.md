@@ -110,4 +110,4 @@ fun MainScreen() {
 
 ## 截图
 
-![](./screenshot/Screenshot_01.png)
+![](./screenshot/screenshot.png)
