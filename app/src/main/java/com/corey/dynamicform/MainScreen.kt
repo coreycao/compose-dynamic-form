@@ -31,9 +31,12 @@ fun loadSampleFormSchema(): FormSchema {
         {
           "type": "form",
           "title": "用户信息登记",
+          "description": "",
+          "cover": "",
           "fields": [
             { "type": "text", "label": "姓名", "name": "name", "validation": { "required": false } },
             { "type": "number", "label": "年龄", "name": "age", "validation": { "required": false } },
+            { "type": "date", "label": "出生日期", "name": "birthday", "validation": { "required": true } },
             { "type": "select", "label": "地区", "name": "region", "options": ["北京", "上海", "广州"], "validation": { "required": true } },
             { "type": "textarea", "label": "自我介绍", "name": "bio", "validation": { "required": true, "minLength": 10 }, "maxLines": 4 },
             { "type": "checkbox", "label": "接受条款", "name": "terms", "validation": { "requiredChecked": true } },

@@ -73,14 +73,7 @@ class FieldController<T>(
     }
 
     internal fun validate(): Boolean {
-        val rule = when (filedSchema) {
-            is FieldSchema.TextField -> filedSchema.validation
-            is FieldSchema.NumberField -> filedSchema.validation
-            is FieldSchema.SelectField -> filedSchema.validation
-            is FieldSchema.CheckboxField -> filedSchema.validation
-            is FieldSchema.TextAreaField -> filedSchema.validation
-            is FieldSchema.ButtonField -> null // Buttons do not have validation rules
-        }
+        val rule = filedSchema.validation
 
         if (rule == null) {
             error.value = null

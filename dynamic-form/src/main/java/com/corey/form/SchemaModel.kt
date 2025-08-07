@@ -12,6 +12,8 @@ import kotlinx.serialization.Serializable
 data class FormSchema(
     val type: String, // 固定为 "form"
     val title: String,
+    val description: String?,
+    val cover: String?,
     val fields: List<FieldSchema>
 )
 
@@ -20,6 +22,7 @@ sealed class FieldSchema {
     abstract val type: String
     abstract val label: String
     abstract val name: String
+    abstract val validation: ValidationRule?
 
     @Serializable
     @SerialName("text")
@@ -27,7 +30,7 @@ sealed class FieldSchema {
         override val type: String = "text",
         override val label: String,
         override val name: String,
-        val validation: ValidationRule? = null
+        override val validation: ValidationRule? = null
     ) : FieldSchema()
 
     @Serializable
@@ -36,8 +39,8 @@ sealed class FieldSchema {
         override val type: String = "textarea",
         override val label: String,
         override val name: String,
-        val validation: ValidationRule? = null,
-        val maxLines: Int = 5
+        val maxLines: Int = 5,
+        override val validation: ValidationRule? = null,
     ) : FieldSchema()
 
     @Serializable
@@ -46,7 +49,7 @@ sealed class FieldSchema {
         override val type: String = "number",
         override val label: String,
         override val name: String,
-        val validation: ValidationRule? = null
+        override val validation: ValidationRule? = null
     ) : FieldSchema()
 
     @Serializable
@@ -56,7 +59,7 @@ sealed class FieldSchema {
         override val label: String,
         override val name: String,
         val options: List<String>,
-        val validation: ValidationRule? = null
+        override val validation: ValidationRule? = null
     ) : FieldSchema()
 
     @Serializable
@@ -65,8 +68,17 @@ sealed class FieldSchema {
         override val type: String = "checkbox",
         override val label: String,
         override val name: String,
-        val checked : Boolean = false,
-        val validation: ValidationRule? = null
+        val checked: Boolean = false,
+        override val validation: ValidationRule? = null
+    ) : FieldSchema()
+
+    @Serializable
+    @SerialName("date")
+    data class DatePickerField(
+        override val type: String = "date",
+        override val label: String,
+        override val name: String,
+        override val validation: ValidationRule? = null
     ) : FieldSchema()
 
     @Serializable
@@ -76,6 +88,7 @@ sealed class FieldSchema {
         override val name: String,
         override val label: String,
         val action: String,
+        override val validation: ValidationRule? = null
     ) : FieldSchema()
 }
 
@@ -86,7 +99,7 @@ data class ValidationRule(
     val minLength: Int? = null,
     val maxLength: Int? = null,
     val regex: String? = null,
-    val message: String? = null
+    val message: String? = null,
 )
 
 fun FieldSchema.ButtonField.btnAction(): ButtonAction {
@@ -102,4 +115,3 @@ sealed class ButtonAction {
     data object Reset : ButtonAction()
     data class Custom(val command: String) : ButtonAction()
 }
-
