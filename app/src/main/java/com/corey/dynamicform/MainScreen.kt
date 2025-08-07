@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.corey.form.FormSchema
 import com.corey.form.SchemaFormScreen
+import com.corey.form.formSchema
 import kotlinx.serialization.json.Json
 
 /**
@@ -47,4 +48,35 @@ fun loadSampleFormSchema(): FormSchema {
     """.trimIndent()
 
     return json.decodeFromString(formSchema)
+}
+
+val schemaDSL = formSchema("用户注册") {
+    description = "请填写以下信息完成注册"
+    cover = "https://example.com/cover.png"
+
+    text("用户名", "username") {
+        required = true
+    }
+
+    textarea("简介", "bio") {
+        required = true
+    }
+
+    number("年龄", "age") {
+        required = true
+    }
+
+    select("性别", "gender", options = listOf("男", "女", "其他")) {
+        required = true
+    }
+
+    checkbox("同意协议", "agree") {
+        requiredChecked = true
+    }
+
+    date("出生日期", "birthday"){
+        required = true
+    }
+
+    button("提交", "submitBtn")
 }
